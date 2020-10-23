@@ -20,7 +20,7 @@
 
 ### Qualitative Comparison
 
-![4](D:\github\UXNet\pics\4.png)
+![](https://github.com/JLooo2/UXNet/blob/master/pics/4.png)
 
 ------
 
