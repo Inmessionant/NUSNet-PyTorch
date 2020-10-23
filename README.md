@@ -1,4 +1,4 @@
-## UXNet: A Nested U Structure Model for Accurate and Fast Saliency Detection（PyTorch）
+## UXNet: A Nested U Structure Model for Accurate and Fast Saliency Detection
 
 ## Update!!!
 
