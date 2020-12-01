@@ -1,16 +1,9 @@
-import glob
-import os
-import parser
-import random
-import torch
-import torch.nn as nn
+
 import torch.optim as optim
 from torch.backends import cudnn
 from torch.utils.data import DataLoader
-from torchsummary import summary
 from torchvision import transforms
-import numpy as np
-from UXNet_model import UXNet
+from UXNet_model.UXNet import *
 from data_loader import RandomCrop
 from data_loader import RescaleT
 from data_loader import SalObjDataset
@@ -21,20 +14,25 @@ from utils.utils import *
 import torch.distributed as dist
 
 
+# change model_name，epoch_num，batch_size，resume, net, num_workers
 def main():
     model_name = 'UXNet'
-    epoch_num = 25000
-    batch_size_train = 256
+    epoch_num = 100
+    batch_size_train = 32
     setup_seed(1222)
-    resume = False
-    image_ext = '.jpg'
-    label_ext = '.png'
+    resume = True
 
     data_dir = os.path.join(os.getcwd(), 'train_data' + os.sep)
-    tra_image_dir = os.path.join('DUTS-TR', 'DUTS-TR-Image' + os.sep)
-    tra_label_dir = os.path.join('DUTS-TR', 'DUTS-TR-Mask' + os.sep)
+    tra_image_dir = os.path.join('TR-Image' + os.sep)
+    tra_label_dir = os.path.join('TR-Mask' + os.sep)
     saved_model_dir = os.path.join(os.getcwd(), 'saved_models' + os.sep)
-    log_dir = os.path.join(os.getcwd(), 'log_dir', 'UXNet.pth')
+    log_dir = os.path.join(os.getcwd(), 'saved_models', model_name + '.pth')
+
+    if not os.path.exists(saved_model_dir):
+        os.makedirs(saved_model_dir, exist_ok=True)
+
+    image_ext = '.jpg'
+    label_ext = '.png'
 
     net = UXNet(3, 1)  # input channels and output channels
     net.to(device)
@@ -47,7 +45,7 @@ def main():
     # If there is a saved model, load the model and continue training based on it
     if resume:
         checkpoint = torch.load(log_dir, map_location=torch.device('cpu'))
-        net.load_state_dict(checkpoint['model'])
+        net.load_state_dict(checkpoint['model'], False)
         optimizer.load_state_dict(checkpoint['optimizer'])
         start_epoch = checkpoint['epoch']
 
@@ -57,6 +55,7 @@ def main():
                             init_method='tcp://127.0.0.1:9999',  # distributed training init method
                             world_size=1,  # number of nodes for distributed training
                             rank=0)  # distributed training node rank
+
     net = torch.nn.parallel.DistributedDataParallel(net, find_unused_parameters=True)
 
     tra_img_name_list = glob.glob(data_dir + tra_image_dir + '*' + image_ext)
@@ -84,13 +83,13 @@ def main():
         exit()
 
     salobj_dataset = SalObjDataset(img_name_list=tra_img_name_list, lbl_name_list=tra_lbl_name_list,
-                                   transform=transforms.Compose([RescaleT(320), RandomCrop(256), ToTensorLab(flag=0)]))
+                                   transform=transforms.Compose([RescaleT(320), RandomCrop(288), ToTensorLab(flag=0)]))
     train_sampler = torch.utils.data.distributed.DistributedSampler(salobj_dataset)
     salobj_dataloader = torch.utils.data.DataLoader(salobj_dataset, batch_size=batch_size_train, sampler=train_sampler,
-                                                    shuffle=False, num_workers=4, pin_memory=True)
+                                                    shuffle=False, num_workers=16, pin_memory=True)
 
     # summary model
-    summary(net, (3, 320, 320))
+    print(summary(net, (3, 320, 320)))
 
     # training parameter
     ite_num = 0
@@ -138,6 +137,9 @@ def main():
             state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch + 1}
             torch.save(state, saved_model_dir + model_name + ".pth")
 
+    state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch + 1}
+    torch.save(state, saved_model_dir + model_name + ".pth")
+    # torch.save(net.state_dict(), saved_model_dir + model_name + ".pth")
     torch.cuda.empty_cache()
 
 
@@ -164,9 +166,10 @@ def muti_bce_loss_fusion(final_fusion_loss, sup1, sup2, sup3, sup4, sup5, sup6, 
     return final_fusion_loss, total_loss
 
 
+# change device
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--device', default='0, 1, 2, 3', help='device id (i.e. 0 or 0,1 or cpu)')
+    parser.add_argument('--device', default='0, 1', help='device id (i.e. 0 or 0,1 or cpu)')
     args = parser.parse_args()
     device = torch_utils.select_device(args.device)
     main()

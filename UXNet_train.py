@@ -1,19 +1,15 @@
 import glob
 import os
 import random
-import torch
-import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from torchsummary import summary
 from torchvision import transforms
 import numpy as np
-from UXNet_model import UXNet
+from UXNet_model.UXNet import *
 from data_loader import RandomCrop
 from data_loader import RescaleT
 from data_loader import SalObjDataset
 from data_loader import ToTensorLab
-from torch.autograd import Variable
 
 
 def setup_seed(seed):
@@ -39,20 +35,28 @@ def muti_bce_loss_fusion(final_fusion_loss, sup1, sup2, sup3, sup4, sup5, sup6, 
     return final_fusion_loss, total_loss
 
 
+# change gpus，model_name，epoch_num，batch_size，resume, net, num_workers
 def main():
-    gpus = [0, 1, 2, 3]
+    gpus = [0, 1]
     torch.cuda.set_device('cuda:{}'.format(gpus[0]))
     setup_seed(1222)
     model_name = 'UXNet'
-    epoch_num = 25000
-    batch_size_train = 128
-    resume = True
+    epoch_num = 10000
+    batch_size_train = 32
+    resume = False
+
+    # Models : UXNet  UXNet4  UXNet5  UXNet6  UXNet7  UXNetCAM  UXNetSAM  UXNetCBAM  UXNet765CAM4SMALLSAM
+    net = UXNet(3, 1).cuda()  # input channels and output channels
+    net = nn.DataParallel(net, device_ids=gpus, output_device=gpus[0])
 
     data_dir = os.path.join(os.getcwd(), 'train_data' + os.sep)
-    tra_image_dir = os.path.join('DUTS-TR', 'DUTS-TR-Image' + os.sep)
-    tra_label_dir = os.path.join('DUTS-TR', 'DUTS-TR-Mask' + os.sep)
+    tra_image_dir = os.path.join('TR-Image' + os.sep)
+    tra_label_dir = os.path.join('TR-Mask' + os.sep)
     saved_model_dir = os.path.join(os.getcwd(), 'saved_models' + os.sep)
-    log_dir = os.path.join(os.getcwd(), 'log_dir', 'UXNet.pth')
+    log_dir = os.path.join(os.getcwd(), 'saved_models', model_name + '.pth')
+
+    if not os.path.exists(saved_model_dir):
+        os.makedirs(saved_model_dir, exist_ok=True)
 
     image_ext = '.jpg'
     label_ext = '.png'
@@ -86,10 +90,6 @@ def main():
     salobj_dataloader = DataLoader(salobj_dataset, batch_size=batch_size_train, shuffle=True, num_workers=16,
                                    pin_memory=True)
 
-    net = UXNet(3, 1)  # input channels and output channels
-    net = net.cuda()
-    net = nn.DataParallel(net, device_ids=gpus, output_device=gpus[0])
-
     optimizer = optim.Adam(net.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0)
 
     start_epoch = 0
@@ -100,7 +100,7 @@ def main():
         optimizer.load_state_dict(checkpoint['optimizer'])
         start_epoch = checkpoint['epoch']
 
-    summary(net, (3, 320, 320))
+    print(summary(net, (3, 320, 320)))
 
     ite_num = 0
     running_loss = 0.0  # total_loss = final_fusion_loss +sup1 +sup2 + sup3 + sup4 +sup5 +sup6
@@ -117,7 +117,7 @@ def main():
             inputs = inputs.type(torch.FloatTensor)
             labels = labels.type(torch.FloatTensor)
 
-            inputs_v, labels_v = Variable(inputs.cuda(non_blocking=True), requires_grad=False), Variable(labels.cuda(non_blocking=True), requires_grad=False)
+            inputs_v, labels_v = inputs.cuda(non_blocking=True), labels.cuda(non_blocking=True)
 
             # forward + backward + optimize
             final_fusion_loss, sup1, sup2, sup3, sup4, sup5, sup6 = net(inputs_v)
@@ -144,9 +144,11 @@ def main():
         # The model is saved every 50 epoch
         if (epoch + 1) % 50 == 0:
             state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch + 1}
-            torch.save(state, saved_model_dir + model_name + "_epochs_%d_train_%3f.pth" % (
-                    epoch + 1, running_loss / ite_num))
+            torch.save(state, saved_model_dir + model_name + ".pth")
 
+    state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch + 1}
+    torch.save(state, saved_model_dir + model_name + ".pth")
+    # torch.save(net.state_dict(), saved_model_dir + model_name + ".pth")
     torch.cuda.empty_cache()
 
 
