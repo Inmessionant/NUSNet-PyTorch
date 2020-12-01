@@ -4,7 +4,9 @@
 
 
 
-**(2020.10.23)** Implementation of UXNet, code and model will be uploaded soon ...
+**🔥(2020.12.01)** Complete all code and upload (except model)
+
+**🔥(2020.10.23)** Implementation of UXNet, code and model will be uploaded soon ...
 
 ------
 
@@ -39,17 +41,19 @@ A qualitative comparison between our method and the other 7 methods: (a) image (
 
 ### Achieved:
 
-- [x] DOConv
+- [ ] DOConv（Realized but temporarily removed）
 
-- [x] Attention
+- [x] Attention mechanism
 
-- [x] apex
+- [x] DataParallel（UXNet_train.py）
 
-- [x] Custom data
+- [x] DistributedDataParallel_Apex（UXNet_train_DistributedDataParallel_Apex.py）
+
+- [x] Custom data set training
 
 - [x] Data Augment 
 
-- [x] Measure Tools
+- [x] Measure Tools （[Link](https://github.com/NathanUA/Binary-Segmentation-Evaluation-Tool)）
 
   
 
