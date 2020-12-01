@@ -41,7 +41,7 @@ A qualitative comparison between our method and the other 7 methods: (a) image (
 
 ### Achieved:
 
-- [ ] DOConv（Realized but temporarily removed）
+- [ ] DOConv（Temporarily removed）
 
 - [x] Attention mechanism
 
