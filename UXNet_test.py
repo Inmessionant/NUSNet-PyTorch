@@ -56,15 +56,7 @@ def main():
     model_dir = os.path.join(os.getcwd(), 'saved_models', model_name + '.pth')
     img_name_list = glob.glob(image_dir + os.sep + '*')
 
-    optimizer = optim.Adam(net.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0)
-
-    # No Checkpoint ModelLoad
-    # net.load_state_dict(torch.load(model_dir))
-
-    # Checkpoint ModelLoad
-    checkpoint = torch.load(model_dir)
-    net.load_state_dict(checkpoint['model'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
+    net.load_state_dict(torch.load(model_dir))
 
     # dataloader
     test_salobj_dataset = SalObjDataset(img_name_list=img_name_list, lbl_name_list=[],
@@ -101,9 +93,11 @@ def main():
             # save results to test_results folder
             if not os.path.exists(prediction_dir):
                 os.makedirs(prediction_dir, exist_ok=True)
+
             save_output(img_name_list[i_test], pred, prediction_dir)
 
         time_sum = 0
+
         for i in res:
             time_sum += i
         print("FPS: %f" % (1.0 / (time_sum / len(res))))
