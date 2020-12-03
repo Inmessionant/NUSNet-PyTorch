@@ -137,9 +137,7 @@ def main():
             state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch + 1}
             torch.save(state, saved_model_dir + model_name + ".pth")
 
-    state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch + 1}
-    torch.save(state, saved_model_dir + model_name + ".pth")
-    # torch.save(net.state_dict(), saved_model_dir + model_name + ".pth")
+    torch.save(net.state_dict(), saved_model_dir + model_name + ".pth")
     torch.cuda.empty_cache()
 
 
