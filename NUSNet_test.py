@@ -3,10 +3,9 @@ import os
 import time
 import cv2
 from PIL import Image
-from torch import optim
 from torch.utils.data import DataLoader
 from torchvision import transforms
-from UXNet_model.UXNet import *
+from NUSNet_model.NUSNet import *
 from data_loader import RescaleT
 from data_loader import SalObjDataset
 from data_loader import ToTensorLab
@@ -41,13 +40,14 @@ def save_output(image_name, pred, d_dir):
 
 # change gpus，model_name，pre_data_dir,  net, num_workers
 def main():
-    gpus = [0, 1]
+    gpus = [0]
     torch.cuda.set_device('cuda:{}'.format(gpus[0]))
-    model_name = 'UXNet'
+    model_name = 'NUSNet'
     pre_data_dir = 'SOD'  # 'TUDS-TE'   'PASCAL'   'HKU'
 
-    # Models : UXNet  UXNet4  UXNet5  UXNet6  UXNet7  UXNetCAM  UXNetSAM  UXNetCBAM  UXNet765CAM4SMALLSAM
-    net = UXNet(3, 1).cuda()  # input channels and output channels
+    # Models : NUSNetNet  NUSNetNet4  NUSNetNet5  NUSNetNet6  NUSNetNet7  NUSNetNetCAM  NUSNetNetSAM  NUSNetNetCBAM
+    # NUSNetNet765CAM4SMALLSAM
+    net = NUSNet(3, 1).cuda()  # input channels and output channels
     net = nn.DataParallel(net, device_ids=gpus, output_device=gpus[0])
     print(summary(net, (3, 320, 320)))
 
@@ -61,7 +61,7 @@ def main():
     # dataloader
     test_salobj_dataset = SalObjDataset(img_name_list=img_name_list, lbl_name_list=[],
                                         transform=transforms.Compose([RescaleT(320), ToTensorLab(flag=0)]))
-    test_salobj_dataloader = DataLoader(test_salobj_dataset, batch_size=1, shuffle=False, num_workers=16,
+    test_salobj_dataloader = DataLoader(test_salobj_dataset, batch_size=1, shuffle=False, num_workers=8,
                                         pin_memory=True)
     res = []
 

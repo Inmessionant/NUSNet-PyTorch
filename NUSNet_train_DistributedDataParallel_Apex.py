@@ -1,53 +1,26 @@
-import glob
-import os
-import random
+
 import torch.optim as optim
+from torch.backends import cudnn
 from torch.utils.data import DataLoader
 from torchvision import transforms
-import numpy as np
-from UXNet_model.UXNet import *
+from NUSNet_model.NUSNet import *
 from data_loader import RandomCrop
 from data_loader import RescaleT
 from data_loader import SalObjDataset
 from data_loader import ToTensorLab
+import argparse
+from apex import amp
+from utils.utils import *
+import torch.distributed as dist
 
 
-def setup_seed(seed):
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-    np.random.seed(seed)
-    random.seed(seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = True
-
-
-# final_fusion_loss is the sum of sup1 to sup6
-def muti_bce_loss_fusion(final_fusion_loss, sup1, sup2, sup3, sup4, sup5, sup6, labels_v):
-    final_fusion_loss = nn.BCELoss(reduction='mean')(final_fusion_loss, labels_v).cuda()
-    sup1 = nn.BCELoss(reduction='mean')(sup1, labels_v).cuda()
-    sup2 = nn.BCELoss(reduction='mean')(sup2, labels_v).cuda()
-    sup3 = nn.BCELoss(reduction='mean')(sup3, labels_v).cuda()
-    sup4 = nn.BCELoss(reduction='mean')(sup4, labels_v).cuda()
-    sup5 = nn.BCELoss(reduction='mean')(sup5, labels_v).cuda()
-    sup6 = nn.BCELoss(reduction='mean')(sup6, labels_v).cuda()
-    total_loss = (final_fusion_loss + sup1 + sup2 + sup3 + sup4 + sup5 + sup6).cuda()
-
-    return final_fusion_loss, total_loss
-
-
-# change gpus，model_name，epoch_num，batch_size，resume, net, num_workers
+# change model_name，epoch_num，batch_size，resume, net, num_workers
 def main():
-    gpus = [0, 1]
-    torch.cuda.set_device('cuda:{}'.format(gpus[0]))
-    setup_seed(1222)
-    model_name = 'UXNet'
-    epoch_num = 10000
+    model_name = 'NUSNet'
+    epoch_num = 1500
     batch_size_train = 32
+    setup_seed(1222)
     resume = False
-
-    # Models : UXNet  UXNet4  UXNet5  UXNet6  UXNet7  UXNetCAM  UXNetSAM  UXNetCBAM  UXNet765CAM4SMALLSAM
-    net = UXNet(3, 1).cuda()  # input channels and output channels
-    net = nn.DataParallel(net, device_ids=gpus, output_device=gpus[0])
 
     data_dir = os.path.join(os.getcwd(), 'train_data' + os.sep)
     tra_image_dir = os.path.join('TR-Image' + os.sep)
@@ -60,6 +33,30 @@ def main():
 
     image_ext = '.jpg'
     label_ext = '.png'
+
+    net = NUSNet(3, 1)  # input channels and output channels
+    net.to(device)
+
+    # define optimizer
+    optimizer = optim.Adam(net.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0)
+
+    start_epoch = 0
+
+    # If there is a saved model, load the model and continue training based on it
+    if resume:
+        checkpoint = torch.load(log_dir, map_location=torch.device('cpu'))
+        net.load_state_dict(checkpoint['model'], False)
+        optimizer.load_state_dict(checkpoint['optimizer'])
+        start_epoch = checkpoint['epoch']
+
+    net, optimizer = amp.initialize(net, optimizer, opt_level='O1', verbosity=0)
+
+    dist.init_process_group(backend='nccl',  # 'distributed backend'
+                            init_method='tcp://127.0.0.1:9999',  # distributed training init method
+                            world_size=1,  # number of nodes for distributed training
+                            rank=0)  # distributed training node rank
+
+    net = torch.nn.parallel.DistributedDataParallel(net, find_unused_parameters=True)
 
     tra_img_name_list = glob.glob(data_dir + tra_image_dir + '*' + image_ext)
     tra_lbl_name_list = []
@@ -87,21 +84,14 @@ def main():
 
     salobj_dataset = SalObjDataset(img_name_list=tra_img_name_list, lbl_name_list=tra_lbl_name_list,
                                    transform=transforms.Compose([RescaleT(320), RandomCrop(288), ToTensorLab(flag=0)]))
-    salobj_dataloader = DataLoader(salobj_dataset, batch_size=batch_size_train, shuffle=True, num_workers=16,
-                                   pin_memory=True)
+    train_sampler = torch.utils.data.distributed.DistributedSampler(salobj_dataset)
+    salobj_dataloader = torch.utils.data.DataLoader(salobj_dataset, batch_size=batch_size_train, sampler=train_sampler,
+                                                    shuffle=False, num_workers=16, pin_memory=True)
 
-    optimizer = optim.Adam(net.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0)
-
-    start_epoch = 0
-    # If there is a saved model, load the model and continue training based on it
-    if resume:
-        checkpoint = torch.load(log_dir)
-        net.load_state_dict(checkpoint['model'])
-        optimizer.load_state_dict(checkpoint['optimizer'])
-        start_epoch = checkpoint['epoch']
-
+    # summary model
     print(summary(net, (3, 320, 320)))
 
+    # training parameter
     ite_num = 0
     running_loss = 0.0  # total_loss = final_fusion_loss +sup1 +sup2 + sup3 + sup4 +sup5 +sup6
     running_tar_loss = 0.0  # final_fusion_loss
@@ -124,10 +114,11 @@ def main():
             final_fusion_loss_mblf, total_loss = muti_bce_loss_fusion(final_fusion_loss, sup1, sup2, sup3, sup4, sup5,
                                                                       sup6, labels_v)
 
-            # y zero the parameter gradients
             optimizer.zero_grad()
 
-            total_loss.backward()
+            with amp.scale_loss(total_loss, optimizer) as scaled_loss:
+                scaled_loss.backward()
+
             optimizer.step()
 
             # # print statistics
@@ -150,5 +141,33 @@ def main():
     torch.cuda.empty_cache()
 
 
+def setup_seed(seed):
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.backends.cudnn.deterministic = True  # 固定随机性
+    torch.backends.cudnn.benchmark = True  # 尺寸大小一样可以加速训练
+
+
+# final_fusion_loss is the sum of sup1 to sup6
+def muti_bce_loss_fusion(final_fusion_loss, sup1, sup2, sup3, sup4, sup5, sup6, labels_v):
+    final_fusion_loss = torch.nn.BCEWithLogitsLoss(reduction='mean')(final_fusion_loss, labels_v).cuda()
+    sup1 = torch.nn.BCEWithLogitsLoss(reduction='mean')(sup1, labels_v).cuda()
+    sup2 = torch.nn.BCEWithLogitsLoss(reduction='mean')(sup2, labels_v).cuda()
+    sup3 = torch.nn.BCEWithLogitsLoss(reduction='mean')(sup3, labels_v).cuda()
+    sup4 = torch.nn.BCEWithLogitsLoss(reduction='mean')(sup4, labels_v).cuda()
+    sup5 = torch.nn.BCEWithLogitsLoss(reduction='mean')(sup5, labels_v).cuda()
+    sup6 = torch.nn.BCEWithLogitsLoss(reduction='mean')(sup6, labels_v).cuda()
+    total_loss = (final_fusion_loss + sup1 + sup2 + sup3 + sup4 + sup5 + sup6).cuda()
+
+    return final_fusion_loss, total_loss
+
+
+# change device
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--device', default='0, 1', help='device id (i.e. 0 or 0,1 or cpu)')
+    args = parser.parse_args()
+    device = torch_utils.select_device(args.device)
     main()
