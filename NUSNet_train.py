@@ -25,7 +25,7 @@ def main():
 
     tra_image_dir = os.path.abspath(str(Path('train_data/TR-Image')))
     tra_label_dir = os.path.abspath(str(Path('train_data/TR-Mask')))
-    saved_model_dir = os.path.abspath(str(Path('saved_models')))
+    saved_model_dir = os.path.join(os.getcwd(), 'saved_models' + os.sep)
     log_dir = os.path.join(os.getcwd(), 'saved_models', model_name + '_Temp.pth')
 
     if not os.path.exists(saved_model_dir):

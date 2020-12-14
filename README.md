@@ -2,8 +2,6 @@
 
 ## Update!!!
 
-**🔥(2020.12.14)** The training image loading and other functions were optimized.
-
 **🔥(2020.12.07)** Change the name from UXNet to NUSNet .
 
 **🔥(2020.12.01)** Complete all code and upload (except model) .
@@ -24,7 +22,7 @@
 
 ### Qualitative Comparison
 
-![](https://github.com/Inmessionant/NUSNet-PyTorch/blob/master/pics/4.png)
+![](https://github.com/Inmessionant/NUSNet-PyTorch/tree/master/pics/4.png)
 A qualitative comparison between our method and the other 7 methods: (a) image (b) GT (c) Ours (d) BASNet (e) PoolNet (f) EGNet (g) AFNet (h) BMP (i) PiCANetR (j ) Amulet.
 
 ------
