@@ -24,7 +24,7 @@
 
 ### Qualitative Comparison
 
-![](https://github.com/Inmessionant/NUSNet-PyTorch/tree/master/pics/4.png)
+![](https://github.com/Inmessionant/NUSNet-PyTorch/blob/master/pics/4.png)
 A qualitative comparison between our method and the other 7 methods: (a) image (b) GT (c) Ours (d) BASNet (e) PoolNet (f) EGNet (g) AFNet (h) BMP (i) PiCANetR (j ) Amulet.
 
 ------
