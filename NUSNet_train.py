@@ -1,96 +1,54 @@
 import glob
-import os
-import random
+from pathlib import Path
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from NUSNet_model.NUSNet import *
-from data_loader import RandomCrop
-from data_loader import RescaleT
-from data_loader import SalObjDataset
-from data_loader import ToTensorLab
-
-
-def setup_seed(seed):
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-    np.random.seed(seed)
-    random.seed(seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = True
-
-
-# final_fusion_loss is the sum of sup1 to sup6
-def muti_bce_loss_fusion(final_fusion_loss, sup1, sup2, sup3, sup4, sup5, sup6, labels_v):
-    final_fusion_loss = nn.BCELoss(reduction='mean')(final_fusion_loss, labels_v).cuda()
-    sup1 = nn.BCELoss(reduction='mean')(sup1, labels_v).cuda()
-    sup2 = nn.BCELoss(reduction='mean')(sup2, labels_v).cuda()
-    sup3 = nn.BCELoss(reduction='mean')(sup3, labels_v).cuda()
-    sup4 = nn.BCELoss(reduction='mean')(sup4, labels_v).cuda()
-    sup5 = nn.BCELoss(reduction='mean')(sup5, labels_v).cuda()
-    sup6 = nn.BCELoss(reduction='mean')(sup6, labels_v).cuda()
-    total_loss = (final_fusion_loss + sup1 + sup2 + sup3 + sup4 + sup5 + sup6).cuda()
-
-    return final_fusion_loss, total_loss
+from utils.torch_utils import *
+from data_loader import *
 
 
 # change gpus，model_name，epoch_num，batch_size，resume, net, num_workers
 def main():
-    gpus = [0]
-    torch.cuda.set_device('cuda:{}'.format(gpus[0]))
-    setup_seed(1222)
-    model_name = 'NUSNet'
-    epoch_num = 1500
+    epoch_num = 150000
     batch_size_train = 32
+    model_name = 'NUSNet'
+    init_seeds(2 + batch_size_train)
     resume = False
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Models : NUSNetNet  NUSNetNet4  NUSNetNet5  NUSNetNet6  NUSNetNet7  NUSNetNetCAM  NUSNetNetSAM  NUSNetNetCBAM
     # NUSNetNet765CAM4SMALLSAM
-    net = NUSNet(3, 1).cuda()  # input channels and output channels
-    net = nn.DataParallel(net, device_ids=gpus, output_device=gpus[0])
+    net = NUSNet(3, 1).to(device)  # input channels and output channels
 
-    data_dir = os.path.join(os.getcwd(), 'train_data' + os.sep)
-    tra_image_dir = os.path.join('TR-Image' + os.sep)
-    tra_label_dir = os.path.join('TR-Mask' + os.sep)
-    saved_model_dir = os.path.join(os.getcwd(), 'saved_models' + os.sep)
-    log_dir = os.path.join(os.getcwd(), 'saved_models', model_name + '.pth')
+    optimizer = optim.Adam(net.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0)
+
+    tra_image_dir = os.path.abspath(str(Path('train_data/TR-Image')))
+    tra_label_dir = os.path.abspath(str(Path('train_data/TR-Mask')))
+    saved_model_dir = os.path.abspath(str(Path('saved_models')))
+    log_dir = os.path.join(os.getcwd(), 'saved_models', model_name + '_Temp.pth')
 
     if not os.path.exists(saved_model_dir):
         os.makedirs(saved_model_dir, exist_ok=True)
 
-    image_ext = '.jpg'
-    label_ext = '.png'
+    img_formats = ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.tiff', '.dng']
 
-    tra_img_name_list = glob.glob(data_dir + tra_image_dir + '*' + image_ext)
-    tra_lbl_name_list = []
+    images_files = sorted(glob.glob(os.path.join(tra_image_dir, '*.*')))
+    labels_files = sorted(glob.glob(os.path.join(tra_label_dir, '*.*')))
 
-    for img_path in tra_img_name_list:
-        img_name = img_path.split(os.sep)[-1]
-        aaa = img_name.split(".")
-        bbb = aaa[0:-1]
-        imidx = bbb[0]
-
-        for i in range(1, len(bbb)):
-            imidx = imidx + "." + bbb[i]
-
-        tra_lbl_name_list.append(data_dir + tra_label_dir + imidx + label_ext)
-
+    tra_img_name_list = [x for x in images_files if os.path.splitext(x)[-1].lower() in img_formats]
+    tra_lbl_name_list = [x for x in labels_files if os.path.splitext(x)[-1].lower() in img_formats]
+    
     print("================================================================")
     print("train images numbers: ", len(tra_img_name_list))
     print("train labels numbers: ", len(tra_lbl_name_list))
 
-    train_num = len(tra_img_name_list)
-
-    if len(tra_img_name_list) != len(tra_lbl_name_list):
-        print("The number of training images does not match the number of training labels, please check again!")
-        exit()
+    assert len(tra_img_name_list) == len(tra_lbl_name_list), 'The number of training images: %g the number of training labels: %g .' % (len(tra_img_name_list), len(tra_lbl_name_list))
 
     salobj_dataset = SalObjDataset(img_name_list=tra_img_name_list, lbl_name_list=tra_lbl_name_list,
                                    transform=transforms.Compose([RescaleT(320), RandomCrop(288), ToTensorLab(flag=0)]))
     salobj_dataloader = DataLoader(salobj_dataset, batch_size=batch_size_train, shuffle=True, num_workers=8,
                                    pin_memory=True)
-
-    optimizer = optim.Adam(net.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0)
 
     start_epoch = 0
     # If there is a saved model, load the model and continue training based on it
@@ -114,10 +72,8 @@ def main():
             ite_num = ite_num + 1
 
             inputs, labels = data['image'], data['label']
-            inputs = inputs.type(torch.FloatTensor)
-            labels = labels.type(torch.FloatTensor)
-
-            inputs_v, labels_v = inputs.cuda(non_blocking=True), labels.cuda(non_blocking=True)
+            inputs, labels = inputs.type(torch.FloatTensor), labels.type(torch.FloatTensor)
+            inputs_v, labels_v = inputs.to(device, non_blocking=True), labels.to(device, non_blocking=True)
 
             # forward + backward + optimize
             final_fusion_loss, sup1, sup2, sup3, sup4, sup5, sup6 = net(inputs_v)
@@ -138,13 +94,13 @@ def main():
             del final_fusion_loss, sup1, sup2, sup3, sup4, sup5, sup6, final_fusion_loss_mblf, total_loss
 
             print("[ epoch: %3d/%3d, batch: %5d/%5d, iteration: %d ] total_loss: %3f, final_fusion_loss: %3f " % (
-                epoch + 1, epoch_num, (i + 1) * batch_size_train, train_num, ite_num, running_loss / ite_num,
+                epoch + 1, epoch_num, (i + 1) * batch_size_train, len(tra_img_name_list), ite_num, running_loss / ite_num,
                 running_tar_loss / ite_num))
 
         # The model is saved every 50 epoch
         if (epoch + 1) % 50 == 0:
             state = {'model': net.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch + 1}
-            torch.save(state, saved_model_dir + model_name + ".pth")
+            torch.save(state, saved_model_dir + model_name + "_Temp.pth")
 
     torch.save(net.state_dict(), saved_model_dir + model_name + ".pth")
     torch.cuda.empty_cache()

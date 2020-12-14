@@ -2,6 +2,8 @@
 
 ## Update!!!
 
+**🔥(2020.12.14)** The training image loading and other functions were optimized.
+
 **🔥(2020.12.07)** Change the name from UXNet to NUSNet .
 
 **🔥(2020.12.01)** Complete all code and upload (except model) .
