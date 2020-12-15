@@ -14,6 +14,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1ftGztJfpOOrEWoEhn5vW3TQnCj" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -25,14 +28,16 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="run.code.analysis.last.selected.profile" value="aDefault" />
+    <property name="settings.editor.selected.configurable" value="web.server" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Projects\UXNet" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.UXNet_train">
-    <configuration name="UXNet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.NUSNet_test">
+    <configuration name="NUSNet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="UXNet" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -40,12 +45,56 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UXNet_model" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NUSNet_model" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="D:\Projects\UXNet\UXNet_model\UXNet.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NUSNet_model/NUSNet.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="NUSNet_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="UXNet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NUSNet_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="NUSNet_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="UXNet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NUSNet_train.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -76,28 +125,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="UXNet_test (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="UXNet" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UXNet_test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="UXNet_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="UXNet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -120,34 +147,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="u2net_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="UXNet" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop/U-2-Net" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/U-2-Net/u2net_test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.NUSNet_test" />
+        <item itemvalue="Python.NUSNet_train" />
+        <item itemvalue="Python.NUSNet" />
         <item itemvalue="Python.UXNet_train" />
         <item itemvalue="Python.UXNet_params (1)" />
-        <item itemvalue="Python.UXNet_test (2)" />
-        <item itemvalue="Python.u2net_test" />
       </list>
     </recent_temporary>
   </component>
@@ -185,6 +191,21 @@
       <workItem from="1598324137420" duration="114000" />
       <workItem from="1598328281620" duration="1616000" />
       <workItem from="1598339235115" duration="57000" />
+      <workItem from="1607322861256" duration="2853000" />
+      <workItem from="1607326148316" duration="687000" />
+      <workItem from="1607337092478" duration="6782000" />
+      <workItem from="1607478483008" duration="4209000" />
+      <workItem from="1607496564187" duration="9000" />
+      <workItem from="1607911197727" duration="592000" />
+      <workItem from="1607913292011" duration="3910000" />
+      <workItem from="1607934281249" duration="76000" />
+      <workItem from="1607939362342" duration="362000" />
+      <workItem from="1607948971233" duration="1109000" />
+      <workItem from="1607950507297" duration="1846000" />
+      <workItem from="1607995899326" duration="9455000" />
+      <workItem from="1608015746468" duration="248000" />
+      <workItem from="1608016084776" duration="558000" />
+      <workItem from="1608017285728" duration="116000" />
     </task>
     <servers />
   </component>
@@ -192,84 +213,84 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="795" y="219" key="FileChooserDialogImpl" timestamp="1597030264109">
+    <state x="552" y="178" key="#Notifications" timestamp="1607325084339">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="795" y="219" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1597030264109" />
-    <state width="1877" height="190" key="GridCell.Tab.0.bottom" timestamp="1598338736810">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="190" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1598338736810" />
-    <state width="1638" height="190" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1598096560543" />
-    <state width="1638" height="171" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1597298420496" />
-    <state width="1877" height="190" key="GridCell.Tab.0.center" timestamp="1598338736810">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="190" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1598338736810" />
-    <state width="1638" height="190" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1598096560543" />
-    <state width="1638" height="171" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1597298420496" />
-    <state width="1877" height="190" key="GridCell.Tab.0.left" timestamp="1598338736810">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="190" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1598338736810" />
-    <state width="1638" height="190" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1598096560543" />
-    <state width="1638" height="171" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1597298420496" />
-    <state width="1877" height="190" key="GridCell.Tab.0.right" timestamp="1598338736810">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="190" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1598338736810" />
-    <state width="1638" height="190" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1598096560543" />
-    <state width="1638" height="171" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1597298420496" />
-    <state width="1877" height="338" key="GridCell.Tab.1.bottom" timestamp="1597662631990">
+    <state x="552" y="178" key="#Notifications/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1607325084339" />
+    <state x="714" y="389" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1608017305986">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597662631990" />
-    <state width="1877" height="338" key="GridCell.Tab.1.center" timestamp="1597662631990">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597662631990" />
-    <state width="1877" height="338" key="GridCell.Tab.1.left" timestamp="1597662631990">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597662631990" />
-    <state width="1877" height="338" key="GridCell.Tab.1.right" timestamp="1597662631990">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="338" key="GridCell.Tab.1.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597662631990" />
-    <state x="-1927" y="0" width="1630" height="1047" key="dock-window-1" timestamp="1597288623130">
+    <state x="714" y="389" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608017305986" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1607913381072">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1927" y="0" width="1630" height="1047" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597288623130" />
-    <state x="-1376" y="89" width="925" height="964" key="dock-window-2" timestamp="1597150589556">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1376" y="89" width="925" height="964" key="dock-window-2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597150589556" />
-    <state x="-1620" y="0" width="1636" height="995" key="dock-window-3" timestamp="1597194655889">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1620" y="0" width="1636" height="995" key="dock-window-3/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597194655889" />
-    <state x="-1606" y="64" width="1397" height="952" key="dock-window-4" timestamp="1597288330941">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1606" y="64" width="1397" height="952" key="dock-window-4/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597288330941" />
-    <state x="622" y="236" width="672" height="678" key="search.everywhere.popup" timestamp="1597291737957">
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1607913381072" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1607911791403" />
+    <state width="1877" height="321" key="GridCell.Tab.0.bottom" timestamp="1608015994274">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="622" y="236" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1597291737957" />
+    <state width="1877" height="321" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608015994274" />
+    <state width="1877" height="321" key="GridCell.Tab.0.center" timestamp="1608015994274">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="321" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608015994274" />
+    <state width="1877" height="321" key="GridCell.Tab.0.left" timestamp="1608015994274">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="321" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608015994274" />
+    <state width="1877" height="321" key="GridCell.Tab.0.right" timestamp="1608015994274">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="321" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608015994274" />
+    <state width="1877" height="338" key="GridCell.Tab.1.bottom" timestamp="1608014723841">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="338" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608014723841" />
+    <state width="1877" height="338" key="GridCell.Tab.1.center" timestamp="1608014723840">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="338" key="GridCell.Tab.1.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608014723840" />
+    <state width="1877" height="338" key="GridCell.Tab.1.left" timestamp="1608014723840">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="338" key="GridCell.Tab.1.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608014723840" />
+    <state width="1877" height="338" key="GridCell.Tab.1.right" timestamp="1608014723841">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="338" key="GridCell.Tab.1.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1608014723841" />
+    <state x="461" y="162" key="SettingsEditor" timestamp="1607911764895">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="162" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1607911764895" />
+    <state x="701" y="250" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration" timestamp="1607911633051">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="701" y="250" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1607911633051" />
+    <state x="-33" y="141" width="1736" height="856" key="dock-window-1" timestamp="1607322877920">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-33" y="141" width="1736" height="856" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1607322877920" />
+    <state x="699" y="250" key="ftp.server.browser" timestamp="1607911621946">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="699" y="250" key="ftp.server.browser/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1607911621946" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/UXNet$UXNet_test__1_.coverage" NAME="UXNet_test (1) Coverage Results" MODIFIED="1597662166627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
+    <SUITE FILE_PATH="coverage/UXNet$UXNet_test.coverage" NAME="UXNet_test Coverage Results" MODIFIED="1597059880695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/UXNet$Conv_test__1_.coverage" NAME="Conv_test (1) Coverage Results" MODIFIED="1597151046427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
-    <SUITE FILE_PATH="coverage/UXNet$U2Net_params.coverage" NAME="U2Net_params Coverage Results" MODIFIED="1597662154861" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
+    <SUITE FILE_PATH="coverage/UXNet$u2net_test.coverage" NAME="u2net_test Coverage Results" MODIFIED="1597921495725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../U-2-Net" />
+    <SUITE FILE_PATH="coverage/NUSNet_PyTorch$NUSNet_test.coverage" NAME="NUSNet_test Coverage Results" MODIFIED="1608015970129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/UXNet$UXNet_train.coverage" NAME="UXNet_train Coverage Results" MODIFIED="1598338657739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/UXNet$UXNet.coverage" NAME="UXNet Coverage Results" MODIFIED="1597834556756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
+    <SUITE FILE_PATH="coverage/UXNet$UXNet_test__1_.coverage" NAME="UXNet_test (1) Coverage Results" MODIFIED="1597662166627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
+    <SUITE FILE_PATH="coverage/UXNet$DWSConv_test.coverage" NAME="DWSConv_test Coverage Results" MODIFIED="1597141367377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
+    <SUITE FILE_PATH="coverage/NUSNet_PyTorch$NUSNet.coverage" NAME="NUSNet Coverage Results" MODIFIED="1607340738619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NUSNet_model" />
+    <SUITE FILE_PATH="coverage/NUSNet_PyTorch$NUSNet_train.coverage" NAME="NUSNet_train Coverage Results" MODIFIED="1608015770318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/UXNet$U2Net.coverage" NAME="U2Net Coverage Results" MODIFIED="1597288014350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
+    <SUITE FILE_PATH="coverage/UXNet$U2Net_test.coverage" NAME="U2Net_test Coverage Results" MODIFIED="1597216142516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
     <SUITE FILE_PATH="coverage/UXNet$UXNet_test__2_.coverage" NAME="UXNet_test (2) Coverage Results" MODIFIED="1598096139139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/UXNet$UXNet_params__1_.coverage" NAME="UXNet_params (1) Coverage Results" MODIFIED="1598096353653" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
-    <SUITE FILE_PATH="coverage/UXNet$DWSConv_test.coverage" NAME="DWSConv_test Coverage Results" MODIFIED="1597141367377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
+    <SUITE FILE_PATH="coverage/UXNet$U2Net_params.coverage" NAME="U2Net_params Coverage Results" MODIFIED="1597662154861" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
     <SUITE FILE_PATH="coverage/UXNet$conv.coverage" NAME="conv Coverage Results" MODIFIED="1597194621878" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/Anaconda3/envs/test/Lib/site-packages/torch/nn/modules" />
-    <SUITE FILE_PATH="coverage/UXNet$UXNet_train.coverage" NAME="UXNet_train Coverage Results" MODIFIED="1598338657739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/UXNet$u2net_test.coverage" NAME="u2net_test Coverage Results" MODIFIED="1597921495725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/U-2-Net" />
-    <SUITE FILE_PATH="coverage/UXNet$UXNet.coverage" NAME="UXNet Coverage Results" MODIFIED="1597834556756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
-    <SUITE FILE_PATH="coverage/UXNet$UXNet_test.coverage" NAME="UXNet_test Coverage Results" MODIFIED="1597059880695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/UXNet$U2Net_test.coverage" NAME="U2Net_test Coverage Results" MODIFIED="1597216142516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
-    <SUITE FILE_PATH="coverage/UXNet$U2Net.coverage" NAME="U2Net Coverage Results" MODIFIED="1597288014350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UXNet_model" />
   </component>
 </project>
