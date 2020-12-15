@@ -2,15 +2,11 @@
 
 ## Update!!!
 
-<<<<<<< HEAD
+
 **🔥(2020.12.15)**  Refactor the function and increase the training progress bar.
 
 **🔥(2020.12.07)** Change the name from UXNet to NUSNet .
 
-=======
-**🔥(2020.12.07)** Change the name from UXNet to NUSNet .
-
->>>>>>> 33e37d2e7141a4f46300f45c5cf04d8f033c2789
 **🔥(2020.12.01)** Complete all code and upload (except model) .
 
 **🔥(2020.10.23)** Implementation of UXNet, code and model will be uploaded soon ...
