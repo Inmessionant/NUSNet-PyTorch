@@ -1,5 +1,7 @@
 ## NUSNet: A Nested U Structure Model for Accurate and Fast Saliency Detection
 
+[![GitHub issues](https://img.shields.io/github/issues/Inmessionant/NUSNet-PyTorch?style=flat-square)](https://github.com/Inmessionant/NUSNet-PyTorch/issues)[![ ](https://img.shields.io/github/forks/Inmessionant/NUSNet-PyTorch?style=flat-square)](https://github.com/Inmessionant/NUSNet-PyTorch/network)[![GitHub stars](https://img.shields.io/github/stars/Inmessionant/NUSNet-PyTorch?style=flat-square)](https://github.com/tfx2001/python-turtle-draw-svg/stargazers)[![GitHub license](https://img.shields.io/github/license/tfx2001/python-turtle-draw-svg.svg?style=flat-square)](https://github.com/Inmessionant/NUSNet-PyTorch/blob/master/LICENSE)
+
 ## Update!!!
 
 
