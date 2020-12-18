@@ -11,10 +11,8 @@ from data_loader import *
 from utils.torch_utils import *
 from utils.utils import *
 
-try:
-    from apex import amp
-except ImportError:
-    raise ImportError("Please install apex from https://www.github.com/nvidia/apex to run this example.")
+from torch.cuda import amp
+
 
 logging.getLogger().setLevel(logging.INFO)
 
