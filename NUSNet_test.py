@@ -61,7 +61,7 @@ def main():
 
             save_output(img_name_list[i_test], pred, prediction_dir)
 
-    logging.info('%s is %f fps in the %s DataSet.' % (model_name, len(img_name_list) / time_sum, pre_data_dir))
+    logging.info('\n' + '%s is %f fps in the %s DataSet.' % (model_name, len(img_name_list) / time_sum, pre_data_dir))
     torch.cuda.empty_cache()
 
 
