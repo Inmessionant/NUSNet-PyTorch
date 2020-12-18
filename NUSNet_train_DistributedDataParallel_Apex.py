@@ -76,7 +76,7 @@ def main():
         len(tra_img_name_list), len(tra_lbl_name_list))
 
     salobj_dataset = SalObjDataset(img_name_list=tra_img_name_list, lbl_name_list=tra_lbl_name_list,
-                                   transform=transforms.Compose([RescaleT(320), RandomCrop(288), ToTensorLab(flag=0)]))
+                                   transform=transforms.Compose([RescaleT(400), RandomCrop(300), ToTensorLab(flag=0)]))
     train_sampler = torch.utils.data.distributed.DistributedSampler(salobj_dataset)
     salobj_dataloader = torch.utils.data.DataLoader(salobj_dataset, batch_size=batch_size_train, sampler=train_sampler,
                                                     shuffle=False, num_workers=16, pin_memory=True)
