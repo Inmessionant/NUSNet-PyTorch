@@ -6,7 +6,7 @@ from torchvision import transforms
 
 from NUSNet_model.NUSNet import *
 from data_loader import *
-from utils.torch_utils import *
+from torch_utils import *
 
 logging.getLogger().setLevel(logging.INFO)
 

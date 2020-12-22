@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 from NUSNet_model.NUSNet import *
 from data_loader import *
-from utils.torch_utils import *
+from torch_utils import *
 
 logging.getLogger().setLevel(logging.INFO)
 
