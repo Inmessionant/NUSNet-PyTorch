@@ -1,20 +1,17 @@
 import argparse
-import glob
 import logging
 from pathlib import Path
 
 import torch.distributed as dist
 import torch.optim as optim
+from torch.cuda import amp
 from torch.utils.data import DataLoader
 from torchvision import transforms
+from tqdm import tqdm
 
 from NUSNet_model.NUSNet import *
 from data_loader import *
 from torch_utils import *
-
-from torch.cuda import amp
-from tqdm import tqdm
-
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -28,10 +25,13 @@ def main():
     resume = False
 
     model = NUSNet(3, 1)  # input channels and output channels
+    model_info(model, verbose=True)
 
     print("Using apex synced BN.")
     model = amp.parallel.convert_syncbn_model(model)
     model.cuda()
+    # summary model
+    # logging.info(summary(model, (3, 320, 320)))
 
     optimizer = optim.Adam(model.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0)
 
@@ -56,6 +56,7 @@ def main():
 
     # If there is a saved model, load the model and continue training based on it
     if resume:
+        check_file(log_dir)
         checkpoint = torch.load(log_dir, map_location=torch.device('cpu'))
         model.load_state_dict(checkpoint['model'], False)
         optimizer.load_state_dict(checkpoint['optimizer'])
@@ -82,9 +83,6 @@ def main():
     train_sampler = torch.utils.data.distributed.DistributedSampler(salobj_dataset)
     salobj_dataloader = torch.utils.data.DataLoader(salobj_dataset, batch_size=batch_size_train, sampler=train_sampler,
                                                     shuffle=False, num_workers=16, pin_memory=True)
-
-    # summary model
-    logging.info(summary(model, (3, 320, 320)))
 
     # training parameter
     ite_num = 0
@@ -150,5 +148,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', default='0, 1', help='device id (i.e. 0 or 0,1 or cpu)')
     args = parser.parse_args()
-    device = torch_utils.select_device(args.device)
+    device = select_device(args.device)
     main()

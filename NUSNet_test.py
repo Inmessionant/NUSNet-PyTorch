@@ -1,4 +1,3 @@
-import glob
 import logging
 
 from torch.utils.data import DataLoader
@@ -17,11 +16,13 @@ def main():
     pre_data_dir = 'SOD'  # 'TUDS-TE'   'PASCAL'   'HKU'
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Models : NUSNetNet  NUSNetNet4  NUSNetNet5  NUSNetNet6  NUSNetNet7  NUSNetNetCAM  NUSNetNetSAM  NUSNetNetCBAM
+    # Models : NUSNet  NUSNet4  NUSNet5  NUSNet6  NUSNet7  NUSNetCAM  NUSNetSAM  NUSNetCBAM
     # NUSNetNet765CAM4SMALLSAM
-    model = NUSNet(3, 1).to(device)  # input channels and output channels
+    model = NUSNet(3, 1)    # input channels and output channels
+    model_info(model, verbose=True)
 
-    logging.info(summary(model, (3, 320, 320)))
+    model.to(device)
+    # logging.info(summary(model, (3, 320, 320)))
 
     image_dir = os.path.join(os.getcwd(), 'test_data', pre_data_dir)
     prediction_dir = os.path.join(os.getcwd(), 'test_data', pre_data_dir + '_Results', model_name + os.sep)

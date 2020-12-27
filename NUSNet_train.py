@@ -1,4 +1,3 @@
-import glob
 import logging
 from pathlib import Path
 
@@ -16,7 +15,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 # change gpus，model_name，epoch_num，batch_size，resume, model, num_workers
 def main():
-    epoch_num = 15000
+    epoch_num = 150000
     batch_size_train = 32
     model_name = 'NUSNet'
     init_seeds(2 + batch_size_train)
@@ -25,7 +24,11 @@ def main():
 
     # Models : NUSNetNet  NUSNetNet4  NUSNetNet5  NUSNetNet6  NUSNetNet7  NUSNetNetCAM  NUSNetNetSAM  NUSNetNetCBAM
     # NUSNetNet765CAM4SMALLSAM
-    model = NUSNet(3, 1).to(device)  # input channels and output channels
+    model = NUSNet(3, 1)    # input channels and output channels
+    model_info(model, verbose=True)
+
+    model.to(device)  # input channels and output channels
+    # logging.info(summary(model, (3, 320, 320)))
 
     optimizer = optim.Adam(model.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0)
 
@@ -54,19 +57,18 @@ def main():
         len(tra_img_name_list), len(tra_lbl_name_list))
 
     salobj_dataset = SalObjDataset(img_name_list=tra_img_name_list, lbl_name_list=tra_lbl_name_list,
-                                   transform=transforms.Compose([Rescale(400), RandomCrop(300), ToTensorLab(flag=0)]))
+                                   transform=transforms.Compose([RescaleT(320), RandomCrop(288), ToTensorLab(flag=0)]))
     salobj_dataloader = DataLoader(salobj_dataset, batch_size=batch_size_train, shuffle=True, num_workers=8,
                                    pin_memory=True)
 
     start_epoch = 0
     # If there is a saved model, load the model and continue training based on it
     if resume:
+        check_file(log_dir)
         checkpoint = torch.load(log_dir)
         model.load_state_dict(checkpoint['model'])
         optimizer.load_state_dict(checkpoint['optimizer'])
         start_epoch = checkpoint['epoch']
-
-    logging.info(summary(model, (3, 320, 320)))
 
     ite_num = 0
     running_loss = 0.0  # total_loss = final_fusion_loss +sup1 +sup2 + sup3 + sup4 +sup5 +sup6
