@@ -15,7 +15,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 # change gpus，model_name，epoch_num，batch_size，resume, model, num_workers
 def main():
-    epoch_num = 150000
+    epoch_num = 15000
     batch_size_train = 32
     model_name = 'NUSNet'
     init_seeds(2 + batch_size_train)

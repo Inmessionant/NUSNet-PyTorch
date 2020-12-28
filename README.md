@@ -49,8 +49,6 @@ A qualitative comparison between our method and the other 7 methods: (a) image (
 
 ### Achieved:
 
-- [x] DOConv
-
 - [x] Attention mechanism
 
 - [x] DataParallel（NUSNet_train.py）
