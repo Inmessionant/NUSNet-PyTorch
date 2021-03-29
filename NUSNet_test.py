@@ -14,7 +14,7 @@ logging.getLogger().setLevel(logging.INFO)
 def main():
     model_name = 'NUSNet'
     pre_data_dir = 'SOD'  # 'TUDS-TE'   'PASCAL'   'HKU'
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Models : NUSNet  NUSNet4  NUSNet5  NUSNet6  NUSNet7  NUSNetCAM  NUSNetSAM  NUSNetCBAM
     # NUSNetNet765CAM4SMALLSAM
