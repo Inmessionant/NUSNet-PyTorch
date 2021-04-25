@@ -140,6 +140,9 @@ def main():
             torch.save(state, saved_model_dir + model_name + ".pth")
 
     torch.save(model.state_dict(), saved_model_dir + model_name + ".pth")
+    
+    # if dist.get_rank() == 0:
+    #     torch.save(model.module.state_dict(), saved_model_dir + model_name + ".pth")
     torch.cuda.empty_cache()
 
 
